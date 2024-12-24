@@ -44,7 +44,9 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="px-4 py-2 font-medium">List properties</button>
+          <Link to="/upload">
+            <button className="px-4 py-2 font-medium">List properties</button>
+          </Link>
           {isConnected && (
             <>
               <button className="relative">
@@ -74,7 +76,6 @@ export default function Navbar() {
                       //return toast.success(`Logged Out`);
                     } catch (error) {
                       console.log({ error });
-                      
                     }
                   }}
                 >
@@ -85,7 +86,7 @@ export default function Navbar() {
               <>
                 <LogIn className="w-5 h-5" />
                 <span
-                  onClick={async () =>{
+                  onClick={async () => {
                     try {
                       await connectAsync({
                         chainId: baseSepolia.id,
@@ -94,10 +95,8 @@ export default function Navbar() {
                       //return toast.success(`Logged In`);
                     } catch (error) {
                       console.log({ error });
-                  }
-                    
-                  }
-                }
+                    }
+                  }}
                 >
                   Login
                 </span>

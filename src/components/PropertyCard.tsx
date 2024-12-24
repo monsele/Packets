@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import type { Property } from '../types';
+import { PropertyType } from '../utils/interfaces/interfaces';
 
 interface PropertyCardProps {
-  property: Property;
+  property: PropertyType;
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {
@@ -11,8 +12,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       <Link to={`/property/${property.id}`}>
         <div className="relative">
           <img
-            src={property.imageUrl}
-            alt={property.title}
+            src={property.images}
+            alt={property.propertyTitle}
             className="w-full h-48 object-cover"
           />
           <div className="absolute bottom-2 left-2 flex gap-1">
@@ -26,17 +27,17 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         </div>
         
         <div className="p-4">
-          <h3 className="font-semibold text-lg">{property.title}</h3>
-          <p className="text-gray-600 text-sm">{property.location}</p>
+          <h3 className="font-semibold text-lg">{property.propertyCategory}</h3>
+          <p className="text-gray-600 text-sm">{property.propertyLocation}</p>
           
           <div className="mt-4 flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">
-                {property.price.eth} ETH <span className="text-xs">MIN</span>
+                {property.price} ETH <span className="text-xs">MIN</span>
               </p>
             </div>
             <div className="text-sm text-gray-600">
-              {property.bidders} Bidders
+              {property.units} Units
             </div>
           </div>
           
