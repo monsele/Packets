@@ -1,38 +1,21 @@
 import { useEffect, useState } from "react";
 import ImageUpload from "../../components/upload/ImageUpload";
 import PropertyForm from "../../components/upload/PropertyForm";
-//import { handleUploadFile } from "../../utils/firebase/firebase-config";
+import { handleUploadFile } from "../../utils/firebase/firebase-config";
 import { useAccount, useWaitForTransactionReceipt } from "wagmi";
 import { toast } from "sonner";
-import { useWriteContract } from "wagmi";
-import { contractABI, contractAddress } from "../../abi/EstatePool";
 export default function PropertyUpload() {
   const { isConnected, address } = useAccount();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
- // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const { writeContract, data: hash } = useWriteContract();
-
-  const { isLoading,isSuccess } = useWaitForTransactionReceipt({ hash});
-
-
-  useEffect(() => {
-    let toastId: string | number = "";
-     if (isLoading) {
-        toastId = toast.loading("Transaction in progress");
-     }
-      if (isSuccess) {
-        toast.dismiss(toastId);
-        toast.success("Transaction successful");
-      }
-  }, [isLoading,isSuccess])
-  
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const handleImageSelect = (files: FileList) => {
     const newImages = Array.from(files).map((file) =>
       URL.createObjectURL(file)
     );
-    //const newFiles = Array.from(files).map((file) => file);
+    const newFiles = Array.from(files).map((file) => file);
     setSelectedImages((prev) => [...prev, ...newImages].slice(0, 5));
-    //setSelectedFiles((prev) => [...prev, ...newFiles]);
+    setSelectedFiles((prev) => [...prev, ...newFiles]);
   };
 
   const handleRemoveImage = (index: number) => {
@@ -42,7 +25,7 @@ export default function PropertyUpload() {
   const handleSubmit = async (formData: any) => {
     //event.preventDefault();
     const data = { ...formData };
-    console.log("data value",data.title);
+    //console.log("data value",data.title);
 
     if (!isConnected || !address) {
       toast.error("Wallet not connected");
@@ -50,25 +33,27 @@ export default function PropertyUpload() {
       return;
     }
 
-    //console.log("Form submitted:", { ...formData, images: selectedImages });
-    writeContract({
-      address: contractAddress,
-      abi: contractABI,
-      functionName: "CreateAsset",
-      args: [
-        data.title,
-        BigInt(data.units),
-        BigInt(Number(data.units)),
-        Number(1),
-      ],
-    });
-    console.log("Contract Called");
+    // //console.log("Form submitted:", { ...formData, images: selectedImages });
+    // writeContract({
+    //   address: contractAddress,
+    //   abi: contractABI,
+    //   functionName: "CreateAsset",
+    //   args: [
+    //     data.title,
+    //     BigInt(data.units),
+    //     BigInt(Number(data.units)),
+    //     Number(1),
+    //   ],
+    // });
+    // console.log("Contract Called");
     
-    // const uploadPromises = selectedFiles.map((sfile) =>
-    //   handleUploadFile(sfile)
-    // );
-    // const imageUrls = await Promise.all(uploadPromises);
-    // console.log(imageUrls);
+    const uploadPromises = selectedFiles.map(async (sfile) =>{
+      console.log("File",sfile);
+       return handleUploadFile(sfile);
+    });
+     const imageUrls = await Promise.all(uploadPromises);
+     console.log(imageUrls);
+     setImages(imageUrls.filter((url): url is string => url !== null));
   };
 
   return (
