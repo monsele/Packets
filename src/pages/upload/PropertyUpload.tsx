@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import ImageUpload from "../../components/upload/ImageUpload";
 import PropertyForm from "../../components/upload/PropertyForm";
 import { handleUploadFile } from "../../utils/firebase/firebase-config";
-import { useAccount, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount } from "wagmi";
 import { toast } from "sonner";
+import PaymasterAPI from "../../utils/api"
+import OnRealAPI from "../../utils/api/onreal";
+import { MetaData } from "../../utils/interfaces/interfaces";
+
 export default function PropertyUpload() {
   const { isConnected, address } = useAccount();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -23,37 +27,45 @@ export default function PropertyUpload() {
   };
 
   const handleSubmit = async (formData: any) => {
-    //event.preventDefault();
-    const data = { ...formData };
-    //console.log("data value",data.title);
+    try {
+      const data = { ...formData };
+      //console.log("data value",data.title);
+      const paymasterAPI = new PaymasterAPI();
+      const onRealApi = new OnRealAPI();
+      if (!isConnected || !address) {
+        toast.error("Wallet not connected");
+        console.error("Wallet not connected");
+        return;
+      }
+      //Upload images to firebase
+      const uploadPromises = selectedFiles.map(async (sfile) => {
+        console.log("File", sfile);
+        return handleUploadFile(sfile);
+      });
+      const imageUrls = await Promise.all(uploadPromises);
+      const imageUrlsString = imageUrls
+        .filter((url): url is string => url !== null)
+        .join(",");
+      console.log(imageUrlsString);
 
-    if (!isConnected || !address) {
-      toast.error("Wallet not connected");
-      console.error("Wallet not connected");
-      return;
-    }
-
-    // //console.log("Form submitted:", { ...formData, images: selectedImages });
-    // writeContract({
-    //   address: contractAddress,
-    //   abi: contractABI,
-    //   functionName: "CreateAsset",
-    //   args: [
-    //     data.title,
-    //     BigInt(data.units),
-    //     BigInt(Number(data.units)),
-    //     Number(1),
-    //   ],
-    // });
-    // console.log("Contract Called");
+      setImages(imageUrls.filter((url): url is string => url !== null));
+//Uplaod metadata and retrieve response
+    const meta = await onRealApi.createTokenMeta({name: data.title, images: imageUrlsString}) as unknown as  MetaData;
     
-    const uploadPromises = selectedFiles.map(async (sfile) =>{
-      console.log("File",sfile);
-       return handleUploadFile(sfile);
-    });
-     const imageUrls = await Promise.all(uploadPromises);
-     console.log(imageUrls);
-     setImages(imageUrls.filter((url): url is string => url !== null));
+    console.log(meta.id);
+    
+      // const asset = await paymasterAPI.createAsset({
+      //   propertyTitle: data.title,
+      //   totalUnits: data.units,
+      //   totalUnitsNumber: data.units,
+      //   category: 1,
+      //   userAddress: address as string,
+      // });
+
+      // console.log("Asset", asset);
+    } catch (error) {
+
+    }
   };
 
   return (
