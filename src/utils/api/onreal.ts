@@ -24,7 +24,7 @@ class OnRealAPI {
   // Properties
   async createProperty(property: Property): Promise<void> {
     try {
-      await api.post("/properties", property);
+      return await api.post("/properties", property);
     } catch (error) {
       this.handleError(error as AxiosError, "Failed to create property");
     }

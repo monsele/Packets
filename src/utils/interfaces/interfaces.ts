@@ -34,6 +34,7 @@ export interface CreateAssetRequest {
   totalUnits: number;
   totalUnitsNumber: number;
   category: number;
+  metaId:number;
   userAddress: string;
 }
 
@@ -59,7 +60,7 @@ export interface PayBidRequest {
 }
 
 export interface Property {
-  id: number;
+  id?: number;
   propertyTitle?: string;
   propertyLocation?: string;
   propertyCategory?: string;
