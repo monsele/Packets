@@ -7,6 +7,7 @@ interface PropertyCardProps {
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {
+  
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <Link to={`/property/${property.id}`}>
@@ -42,7 +43,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
           
           <button className="mt-4 w-full py-2 text-blue-600 font-medium border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
-            Join Bid
+            Buy
           </button>
         </div>
       </Link>

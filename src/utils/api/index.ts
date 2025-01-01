@@ -80,8 +80,10 @@ class PaymasterAPI {
    */
   private handleError(error: AxiosError, defaultMessage: string): never {
     const statusCode = error.response?.status;
-    const message =
-      error.response?.data?.message || error.message || defaultMessage;
+    const message: string =
+      (error.response?.data && typeof error.response?.data === 'object' && 'message' in error.response?.data)
+        ? String(error.response.data.message)
+        : String(error.message || defaultMessage);
 
     throw new PaymasterError(message, statusCode, error.response?.data);
   }

@@ -95,3 +95,8 @@ export interface MetaData {
   name: string;
 }
 
+export interface PaymasterResponse {
+  success: boolean;
+  result: string; // Adjust the type of 'result' as needed
+}
+

@@ -47,18 +47,20 @@ export default function PropertyUpload() {
       console.log(imageUrlsString);
 
       //Uplaod metadata and retrieve response
-      const meta = await onRealApi.createProperty({
+      var perty = {
         images: imageUrlsString,
         propertyTitle: data.title,
         propertyLocation: data.location,
         propertyCategory: data.category as string,
-        annualYield: data.yield,
-        units: data.units,
-        price: data.price,
+        annualYield: Number(data.annualYield),
+        units: Number(data.units),
+        price: Number(data.pricePerUnit),
         propertyDescription: data.description,
         propertyOwner: address as string,
-        id:0
-      });
+        id: 0,
+      };
+      
+      const meta = await onRealApi.createProperty(perty);
       console.log("Meta", meta.data.id);
       const asset = await paymasterAPI.createAsset({
         propertyTitle: data.title,

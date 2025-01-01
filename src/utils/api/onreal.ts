@@ -17,7 +17,9 @@ class OnRealAPI {
   private handleError(error: AxiosError, defaultMessage: string): never {
     const statusCode = error.response?.status;
     const message =
-      error.response?.data?.message || error.message || defaultMessage;
+      (error.response?.data as { message?: string })?.message ||
+      error.message ||
+      defaultMessage;
     throw new OnRealAPIError(message, statusCode, error.response?.data);
   }
 
@@ -27,6 +29,7 @@ class OnRealAPI {
       return await api.post("/properties", property);
     } catch (error) {
       this.handleError(error as AxiosError, "Failed to create property");
+      throw error;
     }
   }
 
