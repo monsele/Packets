@@ -24,7 +24,7 @@ export default function PropertyInfo({ title, location, owner, investors }: Prop
         </div>
         <div className="flex items-center gap-2">
           <Users size={18} className="text-gray-600" />
-          <span>{investors} investors</span>
+          <span>{investors} Units</span>
         </div>
       </div>
     </div>

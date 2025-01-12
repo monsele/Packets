@@ -1,6 +1,6 @@
 import { offchainApi as api } from "../../config/axios/index.ts";
 import { AxiosError } from "axios";
-import { Auction, Property, TokenMeta } from "../interfaces/interfaces.ts";
+import { Auction, AuctionVM, Property, TokenMeta } from "../interfaces/interfaces.ts";
 
 class OnRealAPIError extends Error {
   constructor(
@@ -83,15 +83,15 @@ class OnRealAPI {
   }
 
   // Auctions
-  async createAuction(auction: Auction): Promise<void> {
+  async createAuction(auction: Auction): Promise<any> {
     try {
-      await api.post("/auction", auction);
+      return await api.post("/auction", auction);
     } catch (error) {
       this.handleError(error as AxiosError, "Failed to create auction");
     }
   }
 
-  async getAuctions(): Promise<Auction[]> {
+  async getAuctions(): Promise<AuctionVM[]> {
     try {
       const response = await api.get("/auction");
       return response.data;
@@ -142,7 +142,7 @@ class OnRealAPI {
   }
 
   // Additional Endpoints
-  async getBySmartId(smartId: number): Promise<any> {
+  async getBySmartId(smartId: number): Promise<Property> {
     try {
       const response = await api.get(`/getbysmartId/${smartId}`);
       return response.data;

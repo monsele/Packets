@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ImageGallery from '../../components/property/ImageGallery';
 import PropertyInfo from '../../components/property/PropertyInfo';

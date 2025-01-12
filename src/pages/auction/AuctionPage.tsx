@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import  OnRealAPI  from "../../utils/api/onreal";
 import ImageGallery from '../../components/property/ImageGallery';
 import PropertyInfo from '../../components/property/PropertyInfo';
 import AuctionOverview from '../../components/auction/AuctionOverview';
 import BidList from '../../components/auction/BidList';
 import Analytics from '../../components/auction/Analytics';
-
+import { Auction, Property } from '../../utils/interfaces/interfaces';
+import { toast } from 'sonner';
+import AuctionForm from '../../components/auction/AuctionForm';
+import PaymasterAPI from "../../utils/api";
 const SAMPLE_PROPERTY = {
   id: '1',
   title: 'Lekki Court Yard',
@@ -43,50 +47,120 @@ export default function AuctionPage() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState<'overview' | 'analytics'>('overview');
   const [analyticsPeriod, setAnalyticsPeriod] = useState('4');
+  const [property, setProperty] = useState<Property | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  
+  const handleAuctionSubmit = async (data: {
+    auctionAmount: string;
+    startingBid: string;
+  }) => {
+    console.log("Auction data:", data);
+    // Handle auction submission
+    try {
+      const paymasterAPI = new PaymasterAPI();
+      const onRealApi = new OnRealAPI();
+      var auction = {
+        tokenId: Number(id),
+        amount: Number(data.auctionAmount),
+        userAddress: localStorage.getItem("userWalletAddress") as string,
+      };
+      toast.info("Creating auction...");
+      const resp = await paymasterAPI.createAuction(auction);
+      var auctionData: Auction = {
+        smartContractId: resp.auctionCounter,
+        tokenId: Number(id),
+        initialBid: data.startingBid,
+        owner: localStorage.getItem("userWalletAddress") as string,
+        completed: false,
+        tokenAmount: data.auctionAmount,
+        id: 0,
+        nameOfAsset: property?.propertyTitle as string,
+      };
+
+      console.log(auctionData);
+      toast.info("Creating auction offchain...");
+      var auctionResp = await onRealApi.createAuction(auctionData);
+      console.log(auctionResp);
+      toast.success("Auction created successfully");
+    } catch (error) {
+      toast.error("Failed to create auction");
+      console.error(error);
+      
+    }
+      
+
+  };
+  console.log(id);
+    useEffect(() => {
+      const fetchProperty = async () => {
+        try {
+          setIsLoading(true);
+          const api = new OnRealAPI();
+          const propertyData = await api.getBySmartId(Number(id));
+          console.log(propertyData);
+          
+          setProperty(propertyData);
+        } catch (error) {
+          toast.error("Failed to fetch property details");
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      if (id) {
+        fetchProperty();
+      }
+    }, [id]);
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
           <ImageGallery images={SAMPLE_PROPERTY.images} />
           <PropertyInfo
-            title={SAMPLE_PROPERTY.title}
-            location={SAMPLE_PROPERTY.location}
-            owner={SAMPLE_PROPERTY.owner}
-            investors={SAMPLE_PROPERTY.investors}
+            title={property?.propertyTitle ?? ""}
+            location={property?.propertyLocation ?? ""}
+            owner={property?.propertyOwner ?? ""}
+            investors={property?.units ?? 0}
           />
         </div>
-        
+
         <div className="space-y-8">
           <div>
             <h2 className="text-2xl font-semibold mb-4">Auction</h2>
             <div className="flex gap-4 mb-6">
               <button
-                onClick={() => setActiveTab('overview')}
+                onClick={() => setActiveTab("overview")}
                 className={`px-4 py-2 rounded-lg ${
-                  activeTab === 'overview' ? 'bg-gray-100' : ''
+                  activeTab === "overview" ? "bg-gray-100" : ""
                 }`}
               >
                 Overview
               </button>
               <button
-                onClick={() => setActiveTab('analytics')}
+                onClick={() => setActiveTab("analytics")}
                 className={`px-4 py-2 rounded-lg ${
-                  activeTab === 'analytics' ? 'bg-gray-100' : ''
+                  activeTab === "analytics" ? "bg-gray-100" : ""
                 }`}
               >
                 Analytics
               </button>
             </div>
 
-            {activeTab === 'overview' ? (
-              <AuctionOverview
-                totalValue={SAMPLE_PROPERTY.totalValue}
-                acres={SAMPLE_PROPERTY.acres}
-                annualYield={SAMPLE_PROPERTY.annualYield}
-                timeLeft={SAMPLE_PROPERTY.timeLeft}
-                onPlaceBid={() => console.log('Place bid')}
-              />
+            {activeTab === "overview" ? (
+              <div className="space-y-6">
+                <AuctionOverview
+                  totalValue={SAMPLE_PROPERTY.totalValue}
+                  acres={SAMPLE_PROPERTY.acres}
+                  annualYield={SAMPLE_PROPERTY.annualYield}
+                  timeLeft={SAMPLE_PROPERTY.timeLeft}
+                />
+                <AuctionForm onSubmit={handleAuctionSubmit} />
+              </div>
             ) : (
               <Analytics
                 data={SAMPLE_PROPERTY.analytics}
@@ -96,7 +170,7 @@ export default function AuctionPage() {
             )}
           </div>
 
-          {activeTab === 'overview' && (
+          {activeTab === "overview" && (
             <div>
               <h3 className="font-medium mb-4">Other bidders</h3>
               <BidList bids={SAMPLE_PROPERTY.bids} />

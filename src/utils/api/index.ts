@@ -1,6 +1,6 @@
 import {api} from '../../config/axios/index.ts';
 import  { AxiosError } from "axios";
-import { BuyPlotRequest, CreateAssetRequest, CreateAuctionRequest, PayBidRequest } from '../interfaces/interfaces.ts';
+import { AuctionResponse, BuyPlotRequest, CreateAssetRequest, CreateAuctionRequest, PayBidRequest } from '../interfaces/interfaces.ts';
 
 
 // Custom error class
@@ -16,7 +16,6 @@ class PaymasterError extends Error {
 }
 
 class PaymasterAPI {
-
   /**
    * Creates a new asset
    * @param params - Asset creation parameters
@@ -50,10 +49,10 @@ class PaymasterAPI {
    * @param params - Auction creation parameters
    * @returns Promise with the created auction data
    */
-  async createAuction(params: CreateAuctionRequest): Promise<any> {
+  async createAuction(params: CreateAuctionRequest): Promise<AuctionResponse> {
     try {
       const response = await api.post("/auction", params);
-      return response.data;
+      return response.data as AuctionResponse;
     } catch (error) {
       this.handleError(error as AxiosError, "Failed to create auction");
     }
@@ -81,7 +80,9 @@ class PaymasterAPI {
   private handleError(error: AxiosError, defaultMessage: string): never {
     const statusCode = error.response?.status;
     const message: string =
-      (error.response?.data && typeof error.response?.data === 'object' && 'message' in error.response?.data)
+      error.response?.data &&
+      typeof error.response?.data === "object" &&
+      "message" in error.response?.data
         ? String(error.response.data.message)
         : String(error.message || defaultMessage);
 

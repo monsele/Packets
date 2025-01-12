@@ -1268,5 +1268,4 @@ export const contractABI = [
   },
 ] as const;
 
-export const contractAddress = "0xE0b1846272497d48924428A8f631F97721A4A795"; // Your contract address here
-export const sepoliaVersion = "0x2A4F02f2Ea09C1aDf88FAA2E7f54Be984c2Ce68F"
+export const contractAddress = "0x3f48feE7b268570785814367Cc80252479672A76"; // Your contract address here

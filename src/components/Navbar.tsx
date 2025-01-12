@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useConnect, useAccount, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { baseSepolia } from "viem/chains";
+import { toast } from "sonner";
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { connectAsync } = useConnect();
@@ -88,11 +89,15 @@ export default function Navbar() {
                 <span
                   onClick={async () => {
                     try {
-                      await connectAsync({
+                     const connectResp =  await connectAsync({
                         chainId: baseSepolia.id,
                         connector: injected(),
                       });
-                      //return toast.success(`Logged In`);
+                      localStorage.setItem(
+                        "userWalletAddress",
+                        connectResp.accounts[0]
+                      );
+                      toast.success(`Logged In`);
                     } catch (error) {
                       console.log({ error });
                     }

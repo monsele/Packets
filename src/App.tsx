@@ -8,45 +8,70 @@ import PropertyUpload from './pages/upload/PropertyUpload';
 import PropertyDetails from './pages/property/PropertyDetails';
 import AuctionPage from './pages/auction/AuctionPage';
 import PlaceBidPage from './pages/auction/PlaceBidPage';
+import AuctionListings from './pages/auction/AuctionListings';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={
-          <>
-            <Navbar />
-            <Home />
-          </>
-        } />
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <Home />
+            </>
+          }
+        />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Overview />} />
           <Route path="properties" element={<Properties />} />
         </Route>
-        <Route path="/upload" element={
-          <>
-            <Navbar />
-            <PropertyUpload />
-          </>
-        } />
-        <Route path="/property/:id" element={
-          <>
-            <Navbar />
-            <PropertyDetails />
-          </>
-        } />
-        <Route path="/auction/:id" element={
-          <>
-            <Navbar />
-            <AuctionPage />
-          </>
-        } />
-        <Route path="/auction/:id/bid" element={
-          <>
-            <Navbar />
-            <PlaceBidPage />
-          </>
-        } />
+        <Route
+          path="/upload"
+          element={
+            <>
+              <Navbar />
+              <PropertyUpload />
+            </>
+          }
+        />
+        <Route
+          path="/auctions"
+          element={
+            <>
+              <Navbar />
+              <AuctionListings />
+            </>
+          }
+        />
+        <Route
+          path="/property/:id"
+          element={
+            <>
+              <Navbar />
+              <PropertyDetails />
+            </>
+          }
+        />
+        <Route
+          path="/auction/:id"
+          element={
+            <>
+              <Navbar />
+              <AuctionPage />
+            </>
+          }
+        />
+        <Route
+          path="/auction/:id/bid"
+          element={
+            <>
+              <Navbar />
+              <PlaceBidPage />
+            </>
+          }
+        />
       </Routes>
     </Router>
   );

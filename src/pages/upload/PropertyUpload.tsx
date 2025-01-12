@@ -40,6 +40,7 @@ export default function PropertyUpload() {
       const uploadPromises = selectedFiles.map(async (sfile) => {
         return handleUploadFile(sfile);
       });
+      toast.info("Uploading images...");
       const imageUrls = await Promise.all(uploadPromises);
       const imageUrlsString = imageUrls
         .filter((url): url is string => url !== null)
@@ -61,6 +62,7 @@ export default function PropertyUpload() {
       };
       
       const meta = await onRealApi.createProperty(perty);
+      toast.info("Uploading property On-Chain...");
       console.log("Meta", meta.data.id);
       const asset = await paymasterAPI.createAsset({
         propertyTitle: data.title,

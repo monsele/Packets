@@ -1,17 +1,17 @@
- export interface PropertyType {
-    id: number;
-    propertyTitle: string;
-    propertyLocation: string;
-    propertyCategory: string;
-    annualYield: number;
-    units: number;
-    price: number;
-    propertyDescription: string;
-    propertyOwner: string;
-    images: string;
-    smartContractId: number;
-  }
-  export interface UserTokenData {
+export interface PropertyType {
+  id: number;
+  propertyTitle: string;
+  propertyLocation: string;
+  propertyCategory: string;
+  annualYield: number;
+  units: number;
+  price: number;
+  propertyDescription: string;
+  propertyOwner: string;
+  images: string;
+  smartContractId: number;
+}
+export interface UserTokenData {
   tokenId: bigint;
   name: string;
   description: string;
@@ -34,7 +34,7 @@ export interface CreateAssetRequest {
   totalUnits: number;
   totalUnitsNumber: number;
   category: number;
-  metaId:number;
+  metaId: number;
   userAddress: string;
 }
 
@@ -99,4 +99,27 @@ export interface PaymasterResponse {
   success: boolean;
   result: string; // Adjust the type of 'result' as needed
 }
+export interface AuctionResponse {
+  success: boolean;
+  result: string;
+  auctionCounter: number;
+  // Adjust the type of 'result' as needed
+}
+export interface UserTokenData {
+  tokenId: bigint;
+  Name: string;
+  Description: string;
+  amountOwned: bigint;
+}
 
+export interface AuctionVM {
+  id: number;
+  nameOfAsset?: string;
+  tokenAssetId?: number;
+  initialBid?: string;
+  owner?: string;
+  completed: boolean;
+  tokenAmount?: string;
+  location?: string;
+  imageUrl?: string;
+}

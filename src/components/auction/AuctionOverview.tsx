@@ -1,4 +1,4 @@
-import { Clock } from 'lucide-react';
+import { Clock } from "lucide-react";
 
 interface AuctionOverviewProps {
   totalValue: number;
@@ -9,7 +9,6 @@ interface AuctionOverviewProps {
     hours: number;
     minutes: number;
   };
-  onPlaceBid: () => void;
 }
 
 export default function AuctionOverview({
@@ -17,14 +16,15 @@ export default function AuctionOverview({
   acres,
   annualYield,
   timeLeft,
-  onPlaceBid
 }: AuctionOverviewProps) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-8">
         <div>
           <p className="text-gray-600">Total value</p>
-          <p className="text-2xl font-semibold">${totalValue.toLocaleString()}</p>
+          <p className="text-2xl font-semibold">
+            ${totalValue.toLocaleString()}
+          </p>
         </div>
         <div>
           <p className="text-gray-600">Acres</p>
@@ -40,28 +40,21 @@ export default function AuctionOverview({
         <Clock size={16} className="text-blue-500" />
         <div className="flex items-center gap-1">
           <span className="bg-blue-500 text-white px-2 py-1 rounded">
-            {String(timeLeft.days).padStart(2, '0')}
+            {String(timeLeft.days).padStart(2, "0")}
           </span>
           <span>Days</span>
           <span>:</span>
           <span className="bg-gray-100 px-2 py-1 rounded">
-            {String(timeLeft.hours).padStart(2, '0')}
+            {String(timeLeft.hours).padStart(2, "0")}
           </span>
           <span>Hrs</span>
           <span>:</span>
           <span className="bg-gray-100 px-2 py-1 rounded">
-            {String(timeLeft.minutes).padStart(2, '0')}
+            {String(timeLeft.minutes).padStart(2, "0")}
           </span>
           <span>min</span>
         </div>
       </div>
-
-      <button
-        onClick={onPlaceBid}
-        className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors"
-      >
-        Begin auction
-      </button>
     </div>
   );
 }
