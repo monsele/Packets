@@ -111,7 +111,14 @@ export interface UserTokenData {
   Description: string;
   amountOwned: bigint;
 }
-
+export interface Bid {
+  id: number;
+  auctionId: number;
+  bidAmont: number; // Fixed typo from 'BidAmont'
+  bidder?: string;
+  bidderAddress?: string;
+  isAccept: boolean;
+}
 export interface AuctionVM {
   id: number;
   nameOfAsset?: string;
@@ -122,4 +129,5 @@ export interface AuctionVM {
   tokenAmount?: string;
   location?: string;
   imageUrl?: string;
+  bids?: Bid[];
 }

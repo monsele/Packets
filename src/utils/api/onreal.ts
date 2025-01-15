@@ -100,8 +100,10 @@ class OnRealAPI {
     }
   }
 
-  async getAuctionsByAddress(address: string): Promise<Auction[]> {
+  async getAuctionsByAddress(address: string): Promise<AuctionVM[]> {
     try {
+      console.log(address);
+      
       const response = await api.get(`/auction/${address}`);
       return response.data;
     } catch (error) {
@@ -112,7 +114,7 @@ class OnRealAPI {
     }
   }
 
-  async getAuctionById(auctionId: number): Promise<Auction> {
+  async getAuctionById(auctionId: number): Promise<AuctionVM> {
     try {
       const response = await api.get(`/auction/byId/${auctionId}`);
       return response.data;
