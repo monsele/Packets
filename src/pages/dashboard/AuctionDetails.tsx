@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Building2, Users, CheckCircle2, Timer } from "lucide-react";
-import { AuctionVM } from "../../utils/interfaces/interfaces";
+import { Building2, Users, CheckCircle2, Timer, Loader2 } from "lucide-react";
+import {
+  AuctionVM,
+  BidRequest,
+  PayBidRequest,
+} from "../../utils/interfaces/interfaces";
 import OnRealAPI from "../../utils/api/onreal";
 import { useQuery } from "@tanstack/react-query";
+import PaymasterAPI from "../../utils/api";
+import { toast } from "sonner";
 
 interface Bid {
   id: string;
@@ -71,19 +77,44 @@ export default function AuctionDetails() {
     },
   });
   //const [auctions] = useState(SAMPLE_AUCTIONS);
-  console.log(data);
   const [auction, setAuction] = useState<Auction>(SAMPLE_AUCTION);
   const [selectedBid, setSelectedBid] = useState<Number | null>(null);
+  const [loadingBidId, setLoadingBidId] = useState<Number | null>(null);
+  const handleAcceptBid = async (
+    bidId: Number,
+    auctionId: Number,
+    amount: Number,
+    userAddress: string
+  ) => {
+    try {
+      setLoadingBidId(bidId);
+      const onRealAPI = new OnRealAPI();
+      const paymasterApi = new PaymasterAPI();
+      var input: PayBidRequest = {
+        auctionId: Number(data?.tokenAssetId),
+        amount: amount,
+        userAddress: userAddress,
+        currencyCode: "NGN",
+      };
+      console.log(input);
 
-  const handleAcceptBid = (bidId: Number) => {
-    setSelectedBid(bidId);
-    setAuction((prev) => ({ ...prev, status: "closed" }));
-    // Implement bid acceptance logic
-    console.log("Accepting bid:", bidId);
+      await paymasterApi.payBid(input);
+      //const result = onRealAPI.payBid()
+      await onRealAPI.payBid(auctionId);
+      setSelectedBid(bidId);
+      setAuction((prev) => ({ ...prev, status: "closed" }));
+      // Implement bid acceptance logic
+      console.log("Accepting bid:", bidId);
+    } catch (error) {
+      console.error("Failed to accept bid:", error);
+      toast.error("Failed To Accept Bid");
+    } finally {
+      setLoadingBidId(null);
+    }
   };
 
   const getStatusDisplay = () => {
-    if (data?.completed===false) {
+    if (data?.completed === false) {
       return (
         <div className="flex items-center gap-2">
           <Timer size={20} className="text-green-500" />
@@ -146,9 +177,7 @@ export default function AuctionDetails() {
 
       <div className="bg-white rounded-lg shadow-sm">
         <div className="p-6 border-b">
-          <h2 className="text-lg font-semibold">
-            Bids ({data?.bids?.length})
-          </h2>
+          <h2 className="text-lg font-semibold">Bids ({data?.bids?.length})</h2>
         </div>
         <div className="divide-y">
           {data?.bids?.map((bid) => (
@@ -177,10 +206,26 @@ export default function AuctionDetails() {
                   </span>
                 ) : auction.status === "open" ? (
                   <button
-                    onClick={() => handleAcceptBid(bid.id)}
-                    className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+                    onClick={() =>
+                      bid.bidderAddress &&
+                      handleAcceptBid(
+                        bid.id,
+                        bid.auctionId,
+                        bid.bidAmont,
+                        bid.bidderAddress
+                      )
+                    }
+                    disabled={loadingBidId !== null}
+                    className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[140px] justify-center"
                   >
-                    Accept & Close
+                    {loadingBidId === bid.id ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>Accepting...</span>
+                      </>
+                    ) : (
+                      <span>Accept & Close</span>
+                    )}
                   </button>
                 ) : null}
               </div>

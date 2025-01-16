@@ -1,6 +1,12 @@
 import { offchainApi as api } from "../../config/axios/index.ts";
 import { AxiosError } from "axios";
-import { Auction, AuctionVM, Property, TokenMeta } from "../interfaces/interfaces.ts";
+import {
+  Auction,
+  AuctionVM,
+  BidRequest,
+  Property,
+  TokenMeta,
+} from "../interfaces/interfaces.ts";
 
 class OnRealAPIError extends Error {
   constructor(
@@ -103,7 +109,7 @@ class OnRealAPI {
   async getAuctionsByAddress(address: string): Promise<AuctionVM[]> {
     try {
       console.log(address);
-      
+
       const response = await api.get(`/auction/${address}`);
       return response.data;
     } catch (error) {
@@ -135,9 +141,9 @@ class OnRealAPI {
     }
   }
 
-  async payBid(smartContractId: number): Promise<void> {
+  async payBid(auctionId: Number): Promise<void> {
     try {
-      await api.post(`/payBid?smartContractId=${smartContractId}`);
+      await api.post(`/payBid?auctionId=${auctionId}`);
     } catch (error) {
       this.handleError(error as AxiosError, "Failed to pay bid");
     }
@@ -159,6 +165,20 @@ class OnRealAPI {
       return response.data;
     } catch (error) {
       this.handleError(error as AxiosError, "Failed to get token");
+    }
+  }
+
+  async placeBid(bidData: BidRequest): Promise<boolean> {
+    try {
+      const resp = await api.post("bid", bidData);
+      return resp.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      console.error(
+        "Error placing bid:",
+        axiosError.response ? axiosError.response.data : axiosError.message
+      );
+      return false;
     }
   }
 }

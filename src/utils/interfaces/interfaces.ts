@@ -53,8 +53,8 @@ export interface CreateAuctionRequest {
 }
 
 export interface PayBidRequest {
-  auctionId: number;
-  amount: number;
+  auctionId: Number;
+  amount: Number;
   currencyCode: string;
   userAddress: string;
 }
@@ -130,4 +130,11 @@ export interface AuctionVM {
   location?: string;
   imageUrl?: string;
   bids?: Bid[];
+}
+
+export interface BidRequest {
+  auctionId: number;
+  bidAmont: number;
+  bidder: string;
+  bidderAddress: string;
 }

@@ -18,7 +18,7 @@ export default function AuctionListCard({auction}: Props) {
   
 
   return (
-    <Link to={`/auction/${auction.tokenAssetId}/bid`} className="block">
+    <Link to={`/auction/${auction.id}/bid`} className="block">
       <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div className="relative">
           <img
