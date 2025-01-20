@@ -4,6 +4,7 @@ import {
   Auction,
   AuctionVM,
   BidRequest,
+  BidVm,
   Property,
   TokenMeta,
 } from "../interfaces/interfaces.ts";
@@ -111,6 +112,20 @@ class OnRealAPI {
       console.log(address);
 
       const response = await api.get(`/auction/${address}`);
+      return response.data;
+    } catch (error) {
+      this.handleError(
+        error as AxiosError,
+        "Failed to get auctions by address"
+      );
+    }
+  }
+
+  async getBidsByAddress(address: string): Promise<BidVm[]> {
+    try {
+      console.log(address);
+
+      const response = await api.get(`/getBidByBidder/${address}`);
       return response.data;
     } catch (error) {
       this.handleError(

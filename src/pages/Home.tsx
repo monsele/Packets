@@ -1,57 +1,13 @@
-import { useState } from 'react';
+//import { useState } from 'react';
 import PropertyCard from '../components/PropertyCard';
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { PropertyType } from '../utils/interfaces/interfaces';
-const CATEGORIES = ['Lands', 'Houses', 'Commercial', 'Apartment'];
-
-const SAMPLE_PROPERTIES = [
-  {
-    id: '1',
-    title: 'Lekki Court Yard',
-    location: 'Island, Lagos Nigeris',
-    price: { eth: 0.02, usdt: 50000 },
-    annualYield: 10,
-    bidders: 200,
-    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800',
-    owner: 'Adrone Homes'
-  },
-  {
-    id: '2',
-    title: 'Lekki Court Yard',
-    location: 'Island, Lagos Nigeris',
-    price: { eth: 0.02, usdt: 50000 },
-    annualYield: 10,
-    bidders: 200,
-    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800',
-    owner: 'Adrone Homes'
-  },
-  {
-    id: '3',
-    title: 'Lekki Court Yard',
-    location: 'Island, Lagos Nigeris',
-    price: { eth: 0.02, usdt: 50000 },
-    annualYield: 10,
-    bidders: 200,
-    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800',
-    owner: 'Adrone Homes'
-  },
-  {
-    id: '4',
-    title: 'Lekki Court Yard',
-    location: 'Island, Lagos Nigeris',
-    price: { eth: 0.02, usdt: 50000 },
-    annualYield: 10,
-    bidders: 200,
-    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800',
-    owner: 'Adrone Homes'
-  },
-  // Add more sample properties as needed
-];
+//const CATEGORIES = ['Lands', 'Houses', 'Commercial', 'Apartment'];
 
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState('Houses');
+ // const [activeCategory, setActiveCategory] = useState('Houses');
  const { data } = useQuery({
    queryKey: ["getProperties"],
    queryFn: async () => {
@@ -61,7 +17,7 @@ export default function Home() {
  });
   return (
     <div className="container mx-auto px-6 py-8">
-      <div className="flex items-center justify-center gap-8 mb-8">
+      {/* <div className="flex items-center justify-center gap-8 mb-8">
         {CATEGORIES.map((category) => (
           <button
             key={category}
@@ -75,7 +31,7 @@ export default function Home() {
             {category}
           </button>
         ))}
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {data?.map((property) => (

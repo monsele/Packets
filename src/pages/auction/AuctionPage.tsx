@@ -99,7 +99,6 @@ export default function AuctionPage() {
           const api = new OnRealAPI();
           const propertyData = await api.getBySmartId(Number(id));
           console.log(propertyData);
-          
           setProperty(propertyData);
         } catch (error) {
           toast.error("Failed to fetch property details");
@@ -108,7 +107,6 @@ export default function AuctionPage() {
           setIsLoading(false);
         }
       };
-
       if (id) {
         fetchProperty();
       }
@@ -120,7 +118,7 @@ export default function AuctionPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
-          <ImageGallery images={SAMPLE_PROPERTY.images} />
+          <ImageGallery images={property?.images?.split(',') ?? []} />
           <PropertyInfo
             title={property?.propertyTitle ?? ""}
             location={property?.propertyLocation ?? ""}
@@ -170,12 +168,7 @@ export default function AuctionPage() {
             )}
           </div>
 
-          {activeTab === "overview" && (
-            <div>
-              <h3 className="font-medium mb-4">Other bidders</h3>
-              <BidList bids={SAMPLE_PROPERTY.bids} />
-            </div>
-          )}
+     
         </div>
       </div>
     </div>

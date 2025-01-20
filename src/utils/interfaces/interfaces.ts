@@ -119,6 +119,21 @@ export interface Bid {
   bidderAddress?: string;
   isAccept: boolean;
 }
+export interface BidVm {
+  Id: Number;
+  PropertyName?: string;
+  Owner?: string;
+  AuctionId: Number;
+  BidAmont: Number;
+  BidderAddress?: string;
+  IsAccept: boolean;
+}
+
+export interface MintCurr {
+  shortForm: string;
+  amount: Number;
+  user: string;
+}
 export interface AuctionVM {
   id: number;
   nameOfAsset?: string;

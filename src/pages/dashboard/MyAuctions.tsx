@@ -1,48 +1,11 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Building2, Users, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { AuctionVM } from "../../utils/interfaces/interfaces";
 import OnRealAPI from "../../utils/api/onreal";
 
-interface Auction {
-  id: string;
-  propertyName: string;
-  location: string;
-  initialBid: number;
-  plots: number;
-  imageUrl: string;
-  bidsCount: number;
-  endTime: Date;
-}
-
-const SAMPLE_AUCTIONS: Auction[] = [
-  {
-    id: "1",
-    propertyName: "Lekki Court Yard",
-    location: "Island, Lagos",
-    initialBid: 75000,
-    plots: 50,
-    imageUrl:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
-    bidsCount: 12,
-    endTime: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
-  },
-  {
-    id: "2",
-    propertyName: "Palm Heights Estate",
-    location: "Ikoyi, Lagos",
-    initialBid: 45000,
-    plots: 25,
-    imageUrl:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800",
-    bidsCount: 8,
-    endTime: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-  },
-];
-
 export default function MyAuctions() {
-  const [auctions] = useState<Auction[]>(SAMPLE_AUCTIONS);
+
   const { data } = useQuery({
     queryKey: ["getAuctionsByAddress"],
     queryFn: async (): Promise<AuctionVM[]> => {
@@ -52,6 +15,7 @@ export default function MyAuctions() {
       );
     },
   });
+  
   console.log(data);
   return (
     <div className="p-8">
@@ -101,14 +65,14 @@ export default function MyAuctions() {
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600 text-sm">Initial bid</span>
                     <span className="font-semibold text-blue-600">
-                      ${auction?.initialBid?.toLocaleString()} USDT
+                      ${auction?.initialBid?.toLocaleString()} NGN
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600">Time left</span>
                     <span className="flex items-center gap-1 text-gray-800">
                       <Clock size={16} />
-                      {auction.completed ? "Open" : "Closed"}{" "}
+                      {auction.completed ? "Closed" : "Open"}{" "}
                     </span>
                   </div>
                 </div>

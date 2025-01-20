@@ -7,19 +7,6 @@ import { EstatePoolView } from "../../utils/smartContract";
 import { toast } from "sonner";
 import { UserTokenData } from "../../utils/interfaces/interfaces";
 
-// const SAMPLE_PROPERTIES: UserTokenData[] = [
-//   {
-//     tokenId: 1n,
-//     propertyTitle: 'Lekki Court Yard',
-//     propertyLocation: 'Island, Lagos Nigeria',
-//     price: 500,
-//     annualYield: 10,
-//     images: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800',
-//     propertyCategory: 'Residential',
-//     units: 0
-//   },
-//   // Add more sample properties as needed
-// ];
 
 const ACTIVITY_STATS = [
   { label: "Total Value", value: "$75,620", icon: "bg-blue-100 text-blue-600" },
@@ -31,12 +18,6 @@ export default function Properties() {
   const [properties, setProperties] = useState<UserTokenData[]>([]);
   const navigate = useNavigate();
   console.log(localStorage.getItem("userWalletAddress"));
-  //  const { data: userData } = useQuery({
-  //    queryKey: ["user", localStorage.getItem("userWalletAddress")],
-  //    queryFn: () => EstatePoolView.getUserTokensData((localStorage.getItem("userWalletAddress") as `0x${string}`)),
-
-  //  });
-  // console.log(userData);
   useEffect(() => {
     const fetchData = async () => {
       const userAddress = localStorage.getItem("userWalletAddress");
@@ -51,9 +32,7 @@ export default function Properties() {
        test.map((property) => {
         result.push(property);
       });
-       console.log(result);
       setProperties(result);
-     
     };
     fetchData();
   }, []);

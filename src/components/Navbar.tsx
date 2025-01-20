@@ -7,9 +7,9 @@ import { baseSepolia } from "viem/chains";
 import { toast } from "sonner";
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { connectAsync } = useConnect();
-    const { disconnectAsync } = useDisconnect();
-    const { isConnected } = useAccount();
+  const { connectAsync } = useConnect();
+  const { disconnectAsync } = useDisconnect();
+  const { isConnected } = useAccount();
   const toggleAuth = () => {
     setIsLoggedIn(!isLoggedIn);
   };
@@ -27,12 +27,16 @@ export default function Navbar() {
             </div>
             Packets
           </Link>
-
-          <div className="relative">
-            <select className="appearance-none bg-transparent border border-gray-300 rounded-lg px-4 py-2 pr-8">
-              <option>Country</option>
-            </select>
-          </div>
+          {localStorage.getItem("userWalletAddress") && (
+            <div className="relative">
+              <Link
+                to="/dashboard"
+                className="appearance-none bg-transparent border border-gray-300 rounded-lg px-4 py-2 pr-8"
+              >
+                DashBoard
+              </Link>
+            </div>
+          )}
 
           <div className="relative flex-1">
             <input
@@ -74,6 +78,7 @@ export default function Navbar() {
                   onClick={async () => {
                     try {
                       await disconnectAsync();
+                      localStorage.removeItem("userWalletAddress");
                       //return toast.success(`Logged Out`);
                     } catch (error) {
                       console.log({ error });
@@ -89,7 +94,7 @@ export default function Navbar() {
                 <span
                   onClick={async () => {
                     try {
-                     const connectResp =  await connectAsync({
+                      const connectResp = await connectAsync({
                         chainId: baseSepolia.id,
                         connector: injected(),
                       });

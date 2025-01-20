@@ -11,6 +11,7 @@ import PropertyDetails from "./pages/property/PropertyDetails";
 import AuctionPage from "./pages/auction/AuctionPage";
 import PlaceBidPage from "./pages/auction/PlaceBidPage";
 import AuctionListings from "./pages/auction/AuctionListings";
+import Settings from "./pages/dashboard/Settings";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="properties" element={<Properties />} />
           <Route path="auctions" element={<MyAuctions />} />
           <Route path="auctions/:id" element={<AuctionDetails />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
         <Route
           path="/upload"
