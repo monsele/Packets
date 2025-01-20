@@ -12,15 +12,6 @@ import PaymasterAPI from "../../utils/api";
 import { MintCurr } from "../../utils/interfaces/interfaces";
 import { EstatePoolView } from "../../utils/smartContract";
 
-interface PaymentMethod {
-  type: "card" | "transfer";
-  details: {
-    cardNumber?: string;
-    bankName?: string;
-    accountNumber?: string;
-    reference?: string;
-  };
-}
 
 export default function Settings() {
   const [balance, setBalance] = useState(0);

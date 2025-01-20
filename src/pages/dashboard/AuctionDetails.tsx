@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Building2, Users, CheckCircle2, Timer, Loader2 } from "lucide-react";
 import {
   AuctionVM,
-  BidRequest,
   PayBidRequest,
 } from "../../utils/interfaces/interfaces";
 import OnRealAPI from "../../utils/api/onreal";
