@@ -17,14 +17,14 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 // };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDZfPzBYJlx9nl8J6i5e0ix82k_w6bPPjc",
-  authDomain: "coinamix-60511.firebaseapp.com",
-  databaseURL: "https://coinamix-60511-default-rtdb.firebaseio.com",
-  projectId: "coinamix-60511",
-  storageBucket: "coinamix-60511.appspot.com",
-  messagingSenderId: "3534630108",
-  appId: "1:3534630108:web:7e2e8c5ce68a3b8fd59819",
-  measurementId: "G-BPBH35J0XZ",
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VITE_FIREBASE_APP_ID,
+  measurementId: process.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
