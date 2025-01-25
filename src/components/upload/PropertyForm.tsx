@@ -29,6 +29,10 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
     e.preventDefault();
     onSubmit(formData);
   };
+ const inputClasses =
+   "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
+ const selectClasses =
+   "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -42,7 +46,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, title: e.target.value }))
           }
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className={inputClasses}
           placeholder="Property name"
         />
       </div>
@@ -57,7 +61,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, location: e.target.value }))
           }
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className={inputClasses}
           placeholder="Enter your property location here"
         />
       </div>
@@ -72,7 +76,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, category: e.target.value }))
             }
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className={selectClasses}
           >
             <option>Apartment</option>
             <option>House</option>
@@ -90,7 +94,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, annualYield: e.target.value }))
             }
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className={inputClasses}
           />
         </div>
       </div>
@@ -106,7 +110,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, units: e.target.value }))
             }
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className={inputClasses}
           />
         </div>
         <div>
@@ -119,7 +123,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, pricePerUnit: e.target.value }))
             }
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className={inputClasses}
           />
         </div>
       </div>
@@ -134,7 +138,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
             setFormData((prev) => ({ ...prev, description: e.target.value }))
           }
           rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className={inputClasses}
           placeholder="Give a brief description of the property"
         />
       </div>
