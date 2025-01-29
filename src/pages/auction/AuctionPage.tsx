@@ -10,6 +10,7 @@ import { Auction, Property } from '../../utils/interfaces/interfaces';
 import { toast } from 'sonner';
 import AuctionForm from '../../components/auction/AuctionForm';
 import PaymasterAPI from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 const SAMPLE_PROPERTY = {
   id: '1',
   title: 'Lekki Court Yard',
@@ -49,7 +50,7 @@ export default function AuctionPage() {
   const [analyticsPeriod, setAnalyticsPeriod] = useState('4');
   const [property, setProperty] = useState<Property | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate();
   
   const handleAuctionSubmit = async (data: {
     auctionAmount: string;
@@ -79,10 +80,11 @@ export default function AuctionPage() {
       };
 
       console.log(auctionData);
-      toast.info("Creating auction offchain...");
+      toast.info("Creating auction...");
       var auctionResp = await onRealApi.createAuction(auctionData);
       console.log(auctionResp);
       toast.success("Auction created successfully");
+      navigate(`/auctions`);
     } catch (error) {
       toast.error("Failed to create auction");
       console.error(error);
@@ -148,7 +150,6 @@ export default function AuctionPage() {
                 Analytics
               </button>
             </div>
-
             {activeTab === "overview" ? (
               <div className="space-y-6">
                 <AuctionOverview
@@ -167,8 +168,6 @@ export default function AuctionPage() {
               />
             )}
           </div>
-
-     
         </div>
       </div>
     </div>

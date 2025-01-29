@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface PurchaseCardProps {
   totalValue: number;
@@ -13,17 +13,20 @@ export default function PurchaseCard({
   totalUnits,
   unitValue,
   annualYield,
-  onPurchase
+  onPurchase,
 }: PurchaseCardProps) {
   const [units, setUnits] = useState(1);
   const totalCost = units * unitValue;
-
+  const inputClasses =
+    "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div>
           <p className="text-gray-600">Total value</p>
-          <p className="text-xl font-semibold">${totalValue.toLocaleString()}</p>
+          <p className="text-xl font-semibold">
+            ${totalValue.toLocaleString()}
+          </p>
         </div>
         <div>
           <p className="text-gray-600">Units</p>
@@ -56,10 +59,10 @@ export default function PurchaseCard({
               max={totalUnits}
               value={units}
               onChange={(e) => setUnits(Number(e.target.value))}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className={inputClasses}
             />
             <div className="flex items-center px-4 border rounded-md">
-              <span>USDT</span>
+              <span>NGN</span>
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         <div className="p-4">
-          <h3 className="font-semibold text-lg">{property.propertyCategory}</h3>
+          <h3 className="font-semibold text-lg">{property.propertyTitle}</h3>
           <p className="text-gray-600 text-sm">{property.propertyLocation}</p>
 
           <div className="mt-4 flex items-center justify-between">

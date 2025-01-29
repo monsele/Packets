@@ -6,12 +6,13 @@ import { useAccount } from "wagmi";
 import { toast } from "sonner";
 import PaymasterAPI from "../../utils/api";
 import OnRealAPI from "../../utils/api/onreal";
-
+import { useNavigate } from "react-router-dom";
 
 export default function PropertyUpload() {
   const { isConnected, address } = useAccount();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const navigate = useNavigate();
   const handleImageSelect = (files: FileList) => {
     const newImages = Array.from(files).map((file) =>
       URL.createObjectURL(file)
@@ -72,8 +73,8 @@ export default function PropertyUpload() {
         metaId: meta.data.id as number,
         userAddress: address as string,
       });
-
       console.log("Asset", asset);
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }

@@ -9,6 +9,7 @@ import OnRealAPI from "../../utils/api/onreal";
 import { useQuery } from "@tanstack/react-query";
 import PaymasterAPI from "../../utils/api";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 interface Bid {
   id: string;
@@ -79,6 +80,7 @@ export default function AuctionDetails() {
   const [auction, setAuction] = useState<Auction>(SAMPLE_AUCTION);
   const [selectedBid, setSelectedBid] = useState<Number | null>(null);
   const [loadingBidId, setLoadingBidId] = useState<Number | null>(null);
+  const navigate = useNavigate();
   const handleAcceptBid = async (
     bidId: Number,
     auctionId: Number,
@@ -109,6 +111,7 @@ export default function AuctionDetails() {
       toast.error("Failed To Accept Bid");
     } finally {
       setLoadingBidId(null);
+      navigate("/dashboard");
     }
   };
 

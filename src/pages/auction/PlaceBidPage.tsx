@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ImageGallery from "../../components/property/ImageGallery";
 import PropertyInfo from "../../components/property/PropertyInfo";
 import BidPlacement from "../../components/auction/BidPlacement";
@@ -47,7 +47,7 @@ const SAMPLE_DATA = {
 
 export default function PlaceBidPage() {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const handlePlaceBid = async (amount: string) => {
     console.log("Placing bid:", amount);
     // Implement bid placement logic
@@ -59,10 +59,11 @@ export default function PlaceBidPage() {
         bidder: localStorage.getItem("userWalletAddress") as string,
       };
       console.log(input);
-      
+
       const onRealApi = new OnRealAPI();
       await onRealApi.placeBid(input);
       toast.success("Bid Placed Successfully");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error("Bid failed");

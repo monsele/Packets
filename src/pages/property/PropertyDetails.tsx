@@ -36,12 +36,11 @@ export default function PropertyDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isConnected, address } = useAccount();
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["getPropertyBySmartId"],
     queryFn: async () => {
       const onRealApi = new OnRealAPI();
       const data = await onRealApi.getPropertyById(Number(id));
-      //setprice(data.price);
       return data as PropertyType;
     },
   });

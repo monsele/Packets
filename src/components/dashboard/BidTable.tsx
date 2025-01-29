@@ -1,7 +1,5 @@
 import { BidVm } from "../../utils/interfaces/interfaces";
 
-
-
 export default function BidTable({ bids }: { bids: BidVm[] }) {
   return (
     <div className="bg-white rounded-lg overflow-hidden">
@@ -43,7 +41,7 @@ export default function BidTable({ bids }: { bids: BidVm[] }) {
                       : "text-red-500"
                   }`}
                 >
-                  {bid.BidAmont.toString()}
+                  {bid?.BidAmont?.toString()}
                 </span>
               </td>
               <td className="px-6 py-4 text-sm">{1}</td>
