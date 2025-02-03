@@ -15,7 +15,7 @@ export default function WinningBid({ user, amount }: WinningBidProps) {
           <img src={user.avatar} alt="" className="w-8 h-8 rounded-full" />
           <span className="text-sm">{user.name}</span>
         </div>
-        <span className="text-blue-500">{amount.toLocaleString()}USD</span>
+        <span className="text-blue-500">{amount.toLocaleString()}NGN</span>
       </div>
     </div>
   );

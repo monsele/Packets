@@ -1,12 +1,23 @@
-import { Link } from 'react-router-dom';
-import { PropertyType } from '../utils/interfaces/interfaces';
+import { Link } from "react-router-dom";
+import { PropertyType } from "../utils/interfaces/interfaces";
+import { useReadContract } from "wagmi";
+import { contractABI, contractAddress } from "../abi/EstatePool";
 
 interface PropertyCardProps {
   property: PropertyType;
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {
-  
+  const {
+    data: availableUnits,
+    //isLoading,
+  } = useReadContract({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "getAvailableTokenAmount",
+    args: [BigInt(property.smartContractId)],
+  });
+  console.log(availableUnits);
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <Link to={`/property/${property.id}`}>
@@ -38,7 +49,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 ₦{property.price} <span className="text-xs">per unit</span>
               </p>
             </div>
-            <div className="text-sm text-gray-600">{property.units} Units</div>
+            <div className="text-sm text-gray-600">
+              {Number(availableUnits)} Units
+            </div>
           </div>
 
           <button className="mt-4 w-full py-2 text-blue-600 font-medium border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">

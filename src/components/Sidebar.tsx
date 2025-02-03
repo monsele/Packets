@@ -17,9 +17,9 @@ export default function Sidebar() {
         to="/"
         className="text-blue-600 text-2xl font-bold flex items-center mb-8"
       >
-        <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded mr-2">
+        {/* <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded mr-2">
           <span className="transform -rotate-45">⬚</span>
-        </div>
+        </div> */}
         Packets
       </Link>
 

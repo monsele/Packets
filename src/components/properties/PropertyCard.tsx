@@ -3,6 +3,8 @@ import OnRealApi from "../../utils/api/onreal";
 import { useEffect, useState } from "react";
 import { Property, UserTokenData } from "../../utils/interfaces/interfaces";
 import { useQuery } from "@tanstack/react-query";
+import {useReadContract} from "wagmi";
+import { contractABI, contractAddress } from "../../abi/EstatePool";
 interface PropertyCardProps {
   property: UserTokenData;
   showAuctionButton?: boolean;
@@ -23,11 +25,23 @@ export default function PropertyCard({
     },
     enabled: !!property.tokenId,
   });
+   const {
+     data: amountOwned,
+    //isLoading,
+   } = useReadContract({
+     address: contractAddress,
+     abi: contractABI,
+     functionName: "balanceOf",
+     args: [localStorage.getItem("userWalletAddress") as `0x${string}`,BigInt(property.tokenId)],
+   });
+   console.log(amountOwned);
+   
   useEffect(() => {
    const fetchData = async () => {
   const api = new OnRealApi();
   const propertyValue = await api.getBySmartId(Number(property.tokenId));
   setToken(propertyValue);
+
    };
    fetchData();
   }, [data]);
@@ -53,12 +67,12 @@ export default function PropertyCard({
       </div>
 
       <div className="p-4">
-        <h3 className="font-semibold">{property.name}</h3>
+        <h3 className="font-semibold">{token?.propertyTitle}</h3>
         <p className="text-sm text-gray-600">{token?.propertyLocation}</p>
 
         <div className="mt-4 flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-600">{token?.price} USDT</p>
+            <p className="text-sm text-gray-600">{Number(amountOwned)} Units</p>
             <p className="text-sm text-gray-600">
               {token?.annualYield}% Annual yield
             </p>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Building2, Users, Clock, PackageSearch } from "lucide-react";
+import { Building2, MapPin, Clock, PackageSearch } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { AuctionVM } from "../../utils/interfaces/interfaces";
 import OnRealAPI from "../../utils/api/onreal";
@@ -100,7 +100,7 @@ export default function MyAuctions() {
                     {auction.nameOfAsset}
                   </h3>
                   <p className="text-gray-600 text-sm flex items-center gap-1 mt-1">
-                    <Building2 size={16} />
+                    <MapPin size={16} />
                     {auction.location}
                   </p>
 
@@ -108,14 +108,14 @@ export default function MyAuctions() {
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">Plots for auction</span>
                       <span className="font-medium flex items-center gap-1">
-                        <Users size={16} />
+                        <Building2 size={16} />
                         {auction.tokenAmount}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-gray-600 text-sm">Initial bid</span>
                       <span className="font-semibold text-blue-600">
-                        ${auction?.initialBid?.toLocaleString()} NGN
+                        {auction?.initialBid?.toLocaleString()} NGN
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-sm">

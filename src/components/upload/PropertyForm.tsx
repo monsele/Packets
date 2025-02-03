@@ -115,7 +115,7 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Price per Unit (USDT)
+            Price per Unit (NGN)
           </label>
           <input
             type="number"

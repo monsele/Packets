@@ -34,7 +34,7 @@ export default function Analytics({ data, period, onPeriodChange }: AnalyticsPro
     labels: data.labels,
     datasets: [
       {
-        label: 'Property Value (USDT)',
+        label: 'Property Value (NGN)',
         data: data.values,
         borderColor: 'rgb(59, 130, 246)',
         tension: 0.4,

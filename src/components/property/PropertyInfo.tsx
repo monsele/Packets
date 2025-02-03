@@ -1,4 +1,4 @@
-import { MapPin, Users } from 'lucide-react';
+import { MapPin, Users, Building2Icon } from 'lucide-react';
 
 interface PropertyInfoProps {
   title: string;
@@ -22,10 +22,10 @@ export default function PropertyInfo({ title, location, owner, investors }: Prop
           <p className="text-gray-600">Property Manager</p>
           <p className="font-medium">{owner}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <Users size={18} className="text-gray-600" />
+        {/* <div className="flex items-center gap-2">
+          <Building2Icon size={18} className="text-gray-600" />
           <span>{investors} Units</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

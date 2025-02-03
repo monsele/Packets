@@ -1,10 +1,12 @@
 import { useState } from "react";
-
+import { useReadContract } from "wagmi";
+import { contractABI, contractAddress } from "../../abi/EstatePool";
 interface PurchaseCardProps {
   totalValue: number;
   totalUnits: number;
   unitValue: number;
   annualYield: number;
+  smartContractId:number;
   onPurchase: (units: number) => void;
 }
 
@@ -13,10 +15,21 @@ export default function PurchaseCard({
   totalUnits,
   unitValue,
   annualYield,
+  smartContractId,
   onPurchase,
 }: PurchaseCardProps) {
-  const [units, setUnits] = useState(1);
-  const totalCost = units * unitValue;
+  const [units, setUnits] = useState(0);
+  const {
+    data: availableUnits,
+    isLoading,
+  } = useReadContract({
+    address: contractAddress,
+    abi: contractABI,
+    functionName: "getAvailableTokenAmount",
+    args: [BigInt(smartContractId)],
+  });
+  console.log(availableUnits);
+  
   const inputClasses =
     "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
   return (
@@ -30,7 +43,14 @@ export default function PurchaseCard({
         </div>
         <div>
           <p className="text-gray-600">Units</p>
-          <p className="text-xl font-semibold">{totalUnits}</p>
+           {
+            isLoading ? (
+              <div className="h-5 bg-gray-200 rounded w-3/4" />
+            ) : (
+              <p className="text-xl font-semibold">{Number(availableUnits)}</p>
+            )
+           }
+          {/* <p className="text-xl font-semibold">{totalUnits}</p> */}
         </div>
         <div>
           <p className="text-gray-600">Unit value</p>
@@ -54,9 +74,9 @@ export default function PurchaseCard({
           </label>
           <div className="mt-1 flex gap-4">
             <input
-              type="number"
-              min={1}
-              max={totalUnits}
+              type="text"
+              // min={1}
+              // max={totalUnits}
               value={units}
               onChange={(e) => setUnits(Number(e.target.value))}
               className={inputClasses}

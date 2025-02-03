@@ -4,7 +4,7 @@ interface BidInputProps {
   currency?: string;
 }
 
-export default function BidInput({ value, onChange, currency = 'USDT' }: BidInputProps) {
+export default function BidInput({ value, onChange, currency = 'NGN' }: BidInputProps) {
   return (
     <div className="relative">
       <input

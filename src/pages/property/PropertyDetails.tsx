@@ -102,6 +102,7 @@ export default function PropertyDetails() {
             unitValue={data?.price || 0}
             annualYield={data?.annualYield || 0}
             onPurchase={handlePurchase}
+            smartContractId={data?.smartContractId || 0}
           />
         </div>
       </div>
