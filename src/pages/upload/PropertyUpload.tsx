@@ -12,6 +12,7 @@ export default function PropertyUpload() {
   const { isConnected, address } = useAccount();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const handleImageSelect = (files: FileList) => {
     const newImages = Array.from(files).map((file) =>
@@ -27,7 +28,9 @@ export default function PropertyUpload() {
   };
 
   const handleSubmit = async (formData: any) => {
+    
     try {
+      setIsSubmitting(true);
       const data = { ...formData };
       //console.log("data value",data.title);
       const paymasterAPI = new PaymasterAPI();
@@ -73,9 +76,11 @@ export default function PropertyUpload() {
         metaId: meta.data.id as number,
         userAddress: address as string,
       });
+      setIsSubmitting(false);
       console.log("Asset", asset);
       navigate("/dashboard");
     } catch (error) {
+      setIsSubmitting(false);
       console.log(error);
     }
   };
@@ -95,7 +100,7 @@ export default function PropertyUpload() {
 
       <div className="bg-white rounded-lg p-6 shadow-sm">
         <h2 className="text-lg font-medium mb-4">Property Brief</h2>
-        <PropertyForm onSubmit={handleSubmit} />
+        <PropertyForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
       </div>
     </div>
   );

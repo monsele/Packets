@@ -52,6 +52,9 @@ export default function Navbar() {
           <Link to="/upload">
             <button className="px-4 py-2 font-medium">List properties</button>
           </Link>
+          <Link to="/auctions">
+            <button className="px-4 py-2 font-medium">Auctions</button>
+          </Link>
           {isConnected && (
             <>
               <button className="relative">

@@ -1,3 +1,4 @@
+import { RefreshCw } from "lucide-react";
 import { useState } from "react";
 
 interface PropertyFormData {
@@ -12,9 +13,10 @@ interface PropertyFormData {
 
 interface PropertyFormProps {
   onSubmit: (data: PropertyFormData) => void;
+  isSubmitting?: boolean;
 }
 
-export default function PropertyForm({ onSubmit }: PropertyFormProps) {
+export default function PropertyForm({ onSubmit, isSubmitting = false }: PropertyFormProps) {
   const [formData, setFormData] = useState<PropertyFormData>({
     title: "",
     location: "",
@@ -29,10 +31,10 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
     e.preventDefault();
     onSubmit(formData);
   };
- const inputClasses =
-   "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
- const selectClasses =
-   "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
+  const inputClasses =
+    "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
+  const selectClasses =
+    "mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -146,15 +148,24 @@ export default function PropertyForm({ onSubmit }: PropertyFormProps) {
       <div className="flex gap-4">
         <button
           type="button"
-          className="flex-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          disabled={isSubmitting}
+          className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Save & sell later
         </button>
         <button
           type="submit"
-          className="flex-1 rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+          disabled={isSubmitting}
+          className="flex-1 rounded-lg border border-transparent bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          Publish for sale
+          {isSubmitting ? (
+            <>
+              <RefreshCw className="w-4 h-4 animate-spin" />
+              Publishing...
+            </>
+          ) : (
+            "Publish for sale"
+          )}
         </button>
       </div>
     </form>

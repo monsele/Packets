@@ -37,6 +37,8 @@ class PaymasterAPI {
    */
   async buyPlot(params: BuyPlotRequest): Promise<any> {
     try {
+      console.log("Got here");
+      debugger;
       const response = await api.post("/buy-plot", params);
       return response.data;
     } catch (error) {

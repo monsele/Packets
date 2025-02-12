@@ -20,12 +20,12 @@ export default function AuctionOverview({
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-8">
-        <div>
+        {/* <div>
           <p className="text-gray-600">Total value</p>
           <p className="text-2xl font-semibold">
             ${totalValue.toLocaleString()}
           </p>
-        </div>
+        </div> */}
         <div>
           <p className="text-gray-600">Acres</p>
           <p className="text-2xl font-semibold">{acres}</p>
@@ -35,7 +35,7 @@ export default function AuctionOverview({
           <p className="text-2xl font-semibold">{annualYield}%</p>
         </div>
       </div>
-
+{/* 
       <div className="flex items-center gap-2 text-sm">
         <Clock size={16} className="text-blue-500" />
         <div className="flex items-center gap-1">
@@ -54,7 +54,7 @@ export default function AuctionOverview({
           </span>
           <span>min</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

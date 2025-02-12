@@ -4,18 +4,6 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDdD1eQm9mHr2StkwJhJlTEI-pAJXoaNd4",
-//   authDomain: "packets-96e95.firebaseapp.com",
-//   projectId: "packets-96e95",
-//   storageBucket: "packets-96e95.firebasestorage.app",
-//   messagingSenderId: "476670515525",
-//   appId: "1:476670515525:web:1908cb34e1e5a638a4462c",
-//   measurementId: "G-W1C8679L8X",
-// };
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -28,7 +16,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-console.log(firebaseConfig);
 
 const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);

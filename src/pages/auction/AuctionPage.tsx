@@ -182,7 +182,7 @@ export default function AuctionPage() {
                 <AuctionOverview
                   totalValue={SAMPLE_PROPERTY.totalValue}
                   acres={Number(amountOwned)}
-                  annualYield={SAMPLE_PROPERTY.annualYield}
+                  annualYield={property?.annualYield ?? 0}
                   timeLeft={SAMPLE_PROPERTY.timeLeft}
                 />
                 <AuctionForm onSubmit={handleAuctionSubmit} />

@@ -13,6 +13,7 @@ import { useAccount } from "wagmi";
 import OnRealAPI from "../../utils/api/onreal";
 import PaymasterAPI from "../../utils/api";
 import { toast } from "sonner";
+import { useState } from "react";
 
 // This would typically come from an API
 const SAMPLE_PROPERTY = {
@@ -34,6 +35,7 @@ const SAMPLE_PROPERTY = {
 
 export default function PropertyDetails() {
   const { id } = useParams();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const { isConnected, address } = useAccount();
   const { data, isLoading } = useQuery({
@@ -45,39 +47,49 @@ export default function PropertyDetails() {
     },
   });
   const handlePurchase = async (units: number) => {
-    const paymasterAPI = new PaymasterAPI();
-    const toastId = toast("Sonner");
-    if (!isConnected || !address) {
-      toast.error("Wallet not connected", {
+    try {
+      setIsSubmitting(true);
+      const paymasterAPI = new PaymasterAPI();
+      const toastId = toast("Sonner");
+      if (!isConnected || !address) {
+        toast.error("Wallet not connected", {
+          id: toastId,
+        });
+        console.error("Wallet not connected");
+        return;
+      }
+      console.log("Purchasing units:", units);
+      const purchaseDetails: BuyPlotRequest = {
+        tokenId: data?.smartContractId || 0,
+        purchaseAmt: units,
+        payAmount: units * (data?.price ?? 0),
+        userAddress: address,
+        currencyCode: "NGN",
+      };
+      toast.info("Purchasing property...", {
         id: toastId,
       });
-      console.error("Wallet not connected");
-      return;
+      const response = (await paymasterAPI.buyPlot(
+        purchaseDetails
+      )) as PaymasterResponse;
+      console.log(response);
+      if (response.success) {
+        toast.success("Property purchased successfully!", {
+          id: toastId,
+        });
+        navigate("/dashboard");
+      }
+      else{
+         toast.error("Failed to purchase property", {
+           id: toastId,
+         });
+      }
+    } catch (error) {
+      toast.error("An error occurred while purchasing the property");
+      console.error(error);
     }
-    console.log("Purchasing units:", units);
-    const purchaseDetails: BuyPlotRequest = {
-      tokenId: data?.smartContractId || 0,
-      purchaseAmt: units,
-      payAmount: units * (data?.price ?? 0),
-      userAddress: address,
-      currencyCode: "NGN",
-    };
-    toast.info("Purchasing property...", {
-      id: toastId,
-    });
-    const response = (await paymasterAPI.buyPlot(
-      purchaseDetails
-    )) as PaymasterResponse;
-    console.log(response);
-    if (response.success) {
-      toast.success("Property purchased successfully!", {
-        id: toastId,
-      });
-      navigate("/dashboard");
-    } else {
-      toast.error("Failed to purchase property", {
-        id: toastId,
-      });
+    finally{
+      setIsSubmitting(false);
     }
   };
 
@@ -102,6 +114,7 @@ export default function PropertyDetails() {
             unitValue={data?.price || 0}
             annualYield={data?.annualYield || 0}
             onPurchase={handlePurchase}
+            isSubmitting={isSubmitting}
             smartContractId={data?.smartContractId || 0}
           />
         </div>

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useReadContract } from "wagmi";
 import { contractABI, contractAddress } from "../../abi/EstatePool";
+import { RefreshCw } from "lucide-react";
 interface PurchaseCardProps {
   totalValue: number;
   totalUnits: number;
   unitValue: number;
   annualYield: number;
   smartContractId:number;
+  isSubmitting: boolean;
   onPurchase: (units: number) => void;
 }
 
@@ -17,6 +19,7 @@ export default function PurchaseCard({
   annualYield,
   smartContractId,
   onPurchase,
+  isSubmitting
 }: PurchaseCardProps) {
   const [units, setUnits] = useState(0);
   const {
@@ -35,26 +38,24 @@ export default function PurchaseCard({
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="grid grid-cols-3 gap-4 mb-6">
-        <div>
+        {/* <div>
           <p className="text-gray-600">Total value</p>
           <p className="text-xl font-semibold">
-            ${totalValue.toLocaleString()}
+            ₦{totalValue.toLocaleString()}
           </p>
-        </div>
+        </div> */}
         <div>
           <p className="text-gray-600">Units</p>
-           {
-            isLoading ? (
-              <div className="h-5 bg-gray-200 rounded w-3/4" />
-            ) : (
-              <p className="text-xl font-semibold">{Number(availableUnits)}</p>
-            )
-           }
+          {isLoading ? (
+            <div className="h-5 bg-gray-200 rounded w-3/4" />
+          ) : (
+            <p className="text-xl font-semibold">{Number(availableUnits)}</p>
+          )}
           {/* <p className="text-xl font-semibold">{totalUnits}</p> */}
         </div>
         <div>
           <p className="text-gray-600">Unit value</p>
-          <p className="text-xl font-semibold">${unitValue}</p>
+          <p className="text-xl font-semibold">₦{unitValue}</p>
         </div>
       </div>
 
@@ -82,16 +83,23 @@ export default function PurchaseCard({
               className={inputClasses}
             />
             <div className="flex items-center px-4 border rounded-md">
-              <span>NGN</span>
+              <span>Units</span>
             </div>
           </div>
         </div>
-
         <button
           onClick={() => onPurchase(units)}
-          className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors"
+          disabled={isSubmitting}
+          className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          Pay Now
+          {isSubmitting ? (
+            <>
+              <RefreshCw className="w-4 h-4 animate-spin" />
+              <span>Processing...</span>
+            </>
+          ) : (
+            "Pay Now"
+          )}
         </button>
       </div>
     </div>
