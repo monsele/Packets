@@ -119,7 +119,7 @@ export default function Properties() {
         </div>
       ) : (
         <>
-          <ActivityStats stats={ACTIVITY_STATS} />
+          {/* <ActivityStats stats={ACTIVITY_STATS} /> */}
           <PropertyGrid properties={properties} onAuction={handleAuction} />
         </>
       )}

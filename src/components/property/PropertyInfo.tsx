@@ -4,10 +4,10 @@ interface PropertyInfoProps {
   title: string;
   location: string;
   owner: string;
-  investors: number;
+  //investors: number;
 }
 
-export default function PropertyInfo({ title, location, owner, investors }: PropertyInfoProps) {
+export default function PropertyInfo({ title, location, owner }: PropertyInfoProps) {
   return (
     <div>
       <h1 className="text-2xl font-semibold">{title}</h1>

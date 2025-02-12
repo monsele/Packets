@@ -120,13 +120,13 @@ export interface Bid {
   isAccept: boolean;
 }
 export interface BidVm {
-  Id: Number;
-  PropertyName?: string;
-  Owner?: string;
-  AuctionId: Number;
-  BidAmont: Number;
-  BidderAddress?: string;
-  IsAccept: boolean;
+  id: number;
+  propertyName: string;
+  owner: string;
+  auctionId: number;
+  bidAmont: number;
+  bidderAddress: string;
+  isAccept: boolean;
 }
 
 export interface MintCurr {
@@ -145,6 +145,7 @@ export interface AuctionVM {
   location?: string;
   imageUrl?: string;
   bids?: Bid[];
+  smartAuctionContractId?: number;
 }
 
 export interface BidRequest {

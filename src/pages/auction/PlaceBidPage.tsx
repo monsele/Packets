@@ -2,9 +2,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import ImageGallery from "../../components/property/ImageGallery";
 import PropertyInfo from "../../components/property/PropertyInfo";
 import BidPlacement from "../../components/auction/BidPlacement";
-import { BidRequest } from "../../utils/interfaces/interfaces";
+import { AuctionVM, BidRequest } from "../../utils/interfaces/interfaces";
 import OnRealAPI from "../../utils/api/onreal";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 
 const SAMPLE_DATA = {
   property: {
@@ -47,6 +48,13 @@ const SAMPLE_DATA = {
 
 export default function PlaceBidPage() {
   const { id } = useParams();
+  const { data } = useQuery({
+    queryKey: ["getAuctionById", id],
+    queryFn: async (): Promise<AuctionVM> => {
+      const onRealAPI = new OnRealAPI();
+      return await onRealAPI.getAuctionById(Number(id));
+    },
+  });
   const navigate = useNavigate();
   const handlePlaceBid = async (amount: string) => {
     console.log("Placing bid:", amount);
@@ -73,12 +81,11 @@ export default function PlaceBidPage() {
     <div className="max-w-7xl mx-auto px-6 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
-          <ImageGallery images={SAMPLE_DATA.property.images} />
+          <ImageGallery images={data?.imageUrl?.split(",") ?? SAMPLE_DATA.property.images} />
           <PropertyInfo
-            title={SAMPLE_DATA.property.title}
-            location={SAMPLE_DATA.property.location}
-            owner={SAMPLE_DATA.property.owner}
-            investors={SAMPLE_DATA.property.investors}
+            title={data?.nameOfAsset as string}
+            location={data?.location as string}
+            owner={data?.owner as string}
           />
         </div>
 
@@ -86,8 +93,8 @@ export default function PlaceBidPage() {
           <h2 className="text-2xl font-semibold mb-6">Auction</h2>
           <BidPlacement
             propertyInfo={{
-              totalValue: SAMPLE_DATA.property.totalValue,
-              acres: SAMPLE_DATA.property.acres,
+              totalValue: Number(data?.initialBid),
+              acres: Number(data?.tokenAmount),
               annualYield: SAMPLE_DATA.property.annualYield,
             }}
             winningBid={SAMPLE_DATA.winningBid}

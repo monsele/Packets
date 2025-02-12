@@ -1,6 +1,7 @@
 import { BidVm } from "../../utils/interfaces/interfaces";
 
 export default function BidTable({ bids }: { bids: BidVm[] }) {
+   console.log("Received bids:", JSON.stringify(bids, null, 2));
   return (
     <div className="bg-white rounded-lg overflow-hidden">
       <table className="w-full">
@@ -27,8 +28,8 @@ export default function BidTable({ bids }: { bids: BidVm[] }) {
             <tr key={index}>
               <td className="px-6 py-4">
                 <div>
-                  <p className="font-medium">{bid.PropertyName}</p>
-                  <p className="text-sm text-gray-500">Island, Lagos...</p>
+                  <p className="font-medium">{bid.propertyName}</p>
+                  <p className="text-sm text-gray-500">{bid.owner}</p>
                 </div>
               </td>
               {/* <td className="px-6 py-4 text-sm">{bid.owner}</td> */}
@@ -41,7 +42,7 @@ export default function BidTable({ bids }: { bids: BidVm[] }) {
                       : "text-red-500"
                   }`}
                 >
-                  {bid?.BidAmont?.toString()}
+                  {bid?.bidAmont?.toString()}
                 </span>
               </td>
               <td className="px-6 py-4 text-sm">{1}</td>

@@ -1,14 +1,15 @@
 import { ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
+import { Bid } from '../../utils/interfaces/interfaces';
 
-interface Bid {
-  user: {
-    avatar: string;
-    name: string;
-  };
-  amount: number;
-  isIncrease: boolean;
-  position: string;
-}
+// interface Bid {
+//   user: {
+//     avatar: string;
+//     name: string;
+//   };
+//   amount: number;
+//   isIncrease: boolean;
+//   position: string;
+// }
 
 interface BidListProps {
   bids: Bid[];
@@ -22,24 +23,24 @@ export default function BidList({ bids, onEndBid }: BidListProps) {
         <div key={index} className="flex items-center justify-between py-3 border-b last:border-0">
           <div className="flex items-center gap-3">
             <img
-              src={bid.user.avatar}
-              alt={bid.user.name}
+              //src={bid.user.avatar}
+              alt={bid.bidder}
               className="w-8 h-8 rounded-full"
             />
             <div>
-              <p className="font-medium">{bid.user.name}</p>
+              <p className="font-medium">{bid.bidder}</p>
               <p className="text-sm text-gray-500">Island, Lagos...</p>
             </div>
           </div>
           
           <div className="flex items-center gap-4">
             <div className={`flex items-center gap-1 ${
-              bid.isIncrease ? 'text-green-500' : 'text-red-500'
+              true ? 'text-green-500' : 'text-red-500'
             }`}>
-              {bid.isIncrease ? <ArrowUpCircle size={16} /> : <ArrowDownCircle size={16} />}
-              <span>${bid.amount.toLocaleString()}</span>
+              {true ? <ArrowUpCircle size={16} /> : <ArrowDownCircle size={16} />}
+              <span>${bid.bidAmont.toLocaleString()}</span>
             </div>
-            <span className="text-sm text-gray-500">{bid.position}</span>
+            {/* <span className="text-sm text-gray-500">{bid.position}</span> */}
             {onEndBid && (
               <button
                 onClick={() => onEndBid(index.toString())}

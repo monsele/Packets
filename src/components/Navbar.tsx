@@ -1,4 +1,12 @@
-import { Search, Bell, LogOut, LogIn } from "lucide-react";
+import {
+  Search,
+  Home,
+  LogOut,
+  LogIn,
+  Settings,
+  LayoutDashboard,
+  GridIcon,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useConnect, useAccount, useDisconnect } from "wagmi";
@@ -33,7 +41,7 @@ export default function Navbar() {
                 to="/dashboard"
                 className="appearance-none bg-transparent border border-gray-300 rounded-lg px-4 py-2 pr-8"
               >
-                DashBoard
+                <LayoutDashboard className="inline" size={28} />
               </Link>
             </div>
           )}

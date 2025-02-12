@@ -152,7 +152,7 @@ export default function AuctionPage() {
             title={property?.propertyTitle ?? ""}
             location={property?.propertyLocation ?? ""}
             owner={property?.propertyOwner ?? ""}
-            investors={property?.units ?? 0}
+           // investors={property?.units ?? 0}
           />
         </div>
 

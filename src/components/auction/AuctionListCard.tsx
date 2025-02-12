@@ -1,4 +1,4 @@
-import { Building2, Users } from "lucide-react";
+import { Building2, Building2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AuctionVM } from "../../utils/interfaces/interfaces";
 
@@ -42,7 +42,7 @@ export default function AuctionListCard({auction}: Props) {
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">Plots for auction</span>
               <span className="font-medium flex items-center gap-1">
-                <Users size={16} />
+                <Building2Icon size={16} />
                 {auction.tokenAmount}
               </span>
             </div>

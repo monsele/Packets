@@ -92,7 +92,7 @@ export default function AuctionDetails() {
       const onRealAPI = new OnRealAPI();
       const paymasterApi = new PaymasterAPI();
       var input: PayBidRequest = {
-        auctionId: Number(data?.tokenAssetId),
+        auctionId: Number(data?.smartAuctionContractId),
         amount: amount,
         userAddress: userAddress,
         currencyCode: "NGN",
