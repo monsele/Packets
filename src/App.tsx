@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import VonnectNav from "./components/VonnectNav";
 import Home from "./pages/Home";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Overview from "./pages/dashboard/Overview";
@@ -21,7 +22,7 @@ function App() {
           path="/"
           element={
             <>
-              <Navbar />
+              <VonnectNav />
               <Home />
             </>
           }

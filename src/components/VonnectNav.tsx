@@ -1,20 +1,21 @@
-import {
-  Search,
-  LogOut,
-  LogIn,
-  LayoutDashboard,
-} from "lucide-react";
+import { Search, LogOut, LogIn, LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useConnect, useAccount, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { baseSepolia } from "viem/chains";
 import { toast } from "sonner";
+import {
+  useActiveAccount,
+  useConnectModal,
+} from "thirdweb/react";
+import { client } from "../utils/thridweb";
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { connectAsync } = useConnect();
+  //const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
   const { isConnected, address } = useAccount();
+  const { connect, isConnecting } = useConnectModal();
   const toggleAuth = () => {
     setIsLoggedIn(!isLoggedIn);
   };
@@ -27,9 +28,6 @@ export default function Navbar() {
             to="/"
             className="text-blue-600 text-2xl font-bold flex items-center"
           >
-            {/* <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded mr-2">
-              <span className="transform -rotate-45">⬚</span>
-            </div> */}
             Packets
           </Link>
           {localStorage.getItem("userWalletAddress") && (
@@ -63,16 +61,9 @@ export default function Navbar() {
           {isConnected && (
             <>
               <button className="relative">
-                {/* <Bell className="w-6 h-6 text-gray-600" />
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
-                  2
-                </span> */}
+            
               </button>
-              {/* <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=faces"
-                alt="Profile"
-                className="w-8 h-8 rounded-full"
-              /> */}
+
               {address && address.slice(0, 6) + "..." + address.slice(-4)}
             </>
           )}
@@ -103,14 +94,12 @@ export default function Navbar() {
                 <span
                   onClick={async () => {
                     try {
-                      const connectResp = await connectAsync({
-                        chainId: baseSepolia.id,
-                        connector: injected(),
-                      });
-                      localStorage.setItem(
-                        "userWalletAddress",
-                        connectResp.accounts[0]
-                      );
+                    const wallet = await connect({ client }); // opens the connect modal
+                    console.log("connected to", wallet.getAccount()?.address);
+                    //   localStorage.setItem(
+                    //     "userWalletAddress",
+                    //     connectResp.accounts[0]
+                    //   );
                       toast.success(`Logged In`);
                     } catch (error) {
                       console.log({ error });
