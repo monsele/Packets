@@ -4,7 +4,7 @@ import OnRealAPI from "../../utils/api/onreal";
 import ImageGallery from "../../components/property/ImageGallery";
 import PropertyInfo from "../../components/property/PropertyInfo";
 import AuctionOverview from "../../components/auction/AuctionOverview";
-import BidList from "../../components/auction/BidList";
+
 import Analytics from "../../components/auction/Analytics";
 import { Auction, Property } from "../../utils/interfaces/interfaces";
 import { toast } from "sonner";
